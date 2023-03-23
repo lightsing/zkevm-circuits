@@ -7,8 +7,13 @@ fn main() {
     let lib_name = "go-geth-utils";
     let out_dir = env::var("OUT_DIR").unwrap();
 
+    let mut build = gobuild::Build::new();
+
+    #[cfg(target_os = "windows")]
+    build.ccompiler("C:\\msys64\\mingw64\\bin\\cc.exe");
+
     // Build
-    if let Err(e) = gobuild::Build::new()
+    if let Err(e) = build
         .file("./lib/lib.go")
         .try_compile(lib_name)
     {
